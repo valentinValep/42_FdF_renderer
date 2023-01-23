@@ -25,7 +25,7 @@ int	main(void)
 	init_renderer(&renderer);
 
 	put_origins(&renderer);
-	put_cube(&renderer, (t_point){-50, -50, 0, -1}, 100);
+	draw_cube(&renderer, (t_point){-50, -50, 0, -1}, 100);
 
 	mlx_put_image_to_window(renderer.mlx, renderer.window, renderer.img.addr, 0, 0);
 	mlx_key_hook(renderer.window, key_hook, NULL); // @TODO

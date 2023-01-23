@@ -53,9 +53,9 @@ typedef struct s_renderer
 }	t_renderer;
 
 void	init_renderer(t_renderer	*renderer);
-int		put_point(t_renderer	*renderer, t_point *point);
+int		draw_point(t_renderer	*renderer, t_point *point);
 void	put_origins(t_renderer	*renderer);
-void	put_cube(t_renderer	*renderer, t_point start, double w);
-void	put_line(t_renderer	*renderer, t_point p1, t_point p2);
+void	draw_cube(t_renderer	*renderer, t_point start, double w);
+void	draw_line(t_renderer	*renderer, t_point p1, t_point p2);
 
 #endif

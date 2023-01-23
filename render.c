@@ -42,7 +42,7 @@ int	is_fronter_pixel(t_renderer	*renderer, int x, int y, int depth)
 }
 
 // @TODO Care to reset it before re-use it for another img
-int	put_point(t_renderer	*renderer, t_point *point)
+int	draw_point(t_renderer	*renderer, t_point *point)
 {
 	int const	pixel_x
 		= point->x * renderer->projections[renderer->projection_select].i_hat[0]
