@@ -1,13 +1,9 @@
 #ifndef RENDER_H
 # define RENDER_H
 
-# define _XOPEN_SOURCE 500
-# include <math.h>
-
-// @TODO put these in projection in renderer
-# define PROJECTION_MATRIX_I_HAT (double []){cos(M_PI / 6.), sin(M_PI / 6)}
-# define PROJECTION_MATRIX_J_HAT (double []){cos(5. * M_PI / 6.), sin(5. * M_PI / 6.)}
-# define PROJECTION_MATRIX_K_HAT (double []){0., -1.}
+# define WINDOW_W 1920
+# define WINDOW_H 1080
+# define PROJECTIONS_NUMBER 2
 
 typedef struct s_point
 {
@@ -29,14 +25,23 @@ typedef struct s_img
 	int		endian;
 }	t_img;
 
+typedef struct s_projection_matrix
+{
+	char	*name;
+	double	i_hat[2];
+	double	j_hat[2];
+	double	k_hat[2];
+}	t_projection_matrix;
+
 typedef struct s_renderer
 {
-	t_img	img;
-	void	*mlx;
-	void	*window;
-	double	*projection; // @TODO
-	int		origin_x;
-	int		origin_y;
+	t_img				img;
+	void				*mlx;
+	void				*window;
+	t_projection_matrix	projections[PROJECTIONS_NUMBER];
+	int					projection_select;
+	int					origin_x;
+	int					origin_y;
 }	t_renderer;
 
 void	init_renderer(t_renderer	*renderer);

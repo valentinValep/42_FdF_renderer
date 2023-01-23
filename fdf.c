@@ -14,7 +14,7 @@ int	key_hook(int keycode, void *param)
 int	tick(t_renderer *renderer)
 {
 	(void) renderer;
-	printf("Tick\n");
+	//printf("Tick\n");
 	return (0);
 }
 
