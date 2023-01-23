@@ -4,6 +4,7 @@
 # define WINDOW_W 1920
 # define WINDOW_H 1080
 # define PROJECTIONS_NUMBER 2
+# define _XOPEN_SOURCE 500 // Use for math.h in render.c
 
 typedef struct s_point
 {
@@ -13,11 +14,18 @@ typedef struct s_point
 	int		color;
 }	t_point;
 
+typedef struct s_depth
+{
+	double	value;
+	int		pixel_x;
+	int		pixel_y;
+}	t_depth;
+
 typedef struct s_img
 {
 	void	*addr;
 	char	*pixels;
-	int		*depths; // @TODO
+	t_depth	*depths;
 	int		h;
 	int		w;
 	int		bits_per_pixel;
@@ -45,7 +53,7 @@ typedef struct s_renderer
 }	t_renderer;
 
 void	init_renderer(t_renderer	*renderer);
-int	put_point(t_renderer	*renderer, t_point *point);
+int		put_point(t_renderer	*renderer, t_point *point);
 void	put_origins(t_renderer	*renderer);
 void	put_cube(t_renderer	*renderer, t_point start, double w);
 void	put_line(t_renderer	*renderer, t_point p1, t_point p2);

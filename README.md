@@ -1,2 +1,3 @@
 # ROADMAP
-- Add a command helper
+- Add a command helper on another img
+- Add double buffering

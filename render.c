@@ -1,7 +1,7 @@
 #include "render.h"
 #include <mlx.h>
-# define _XOPEN_SOURCE 500
-# include <math.h>
+#include <math.h>
+#include <stdlib.h>
 
 int	put_pixel(t_renderer	*renderer, int x, int y, int color)
 {
@@ -16,6 +16,36 @@ int	put_pixel(t_renderer	*renderer, int x, int y, int color)
 	return (1);
 }
 
+int	is_fronter_pixel(t_renderer	*renderer, int x, int y, int depth)
+{
+	int	i;
+
+	i = 0;
+	while (renderer->img.depths[i].pixel_x != -1
+		&& (renderer->img.depths[i].pixel_x != x
+			|| renderer->img.depths[i].pixel_y != y))
+		i++;
+	if (renderer->img.depths[i].pixel_x != -1)
+	{
+		if (depth > renderer->img.depths[i].value)
+		{
+			renderer->img.depths[i].pixel_x = x;
+			renderer->img.depths[i].pixel_y = y;
+			renderer->img.depths[i].value = depth;
+			return (1);
+		}
+	}
+	else
+	{
+		renderer->img.depths[i].pixel_x = x;
+		renderer->img.depths[i].pixel_y = y;
+		renderer->img.depths[i].value = depth;
+		renderer->img.depths[i + 1].pixel_x = -1;
+	}
+	return (1);
+}
+
+// @TODO Care to reset it before re-use it for another img
 int	put_point(t_renderer	*renderer, t_point *point)
 {
 	int const	pixel_x
@@ -29,7 +59,11 @@ int	put_point(t_renderer	*renderer, t_point *point)
 		+ point->z * renderer->projections[renderer->projection_select].k_hat[1]
 		;
 
-	return (put_pixel(renderer, pixel_x, pixel_y, point->color));
+	if (pixel_x < 0 || pixel_x > renderer->img.w || pixel_y < 0 || pixel_y > renderer->img.h)
+		return (0);
+	if (is_fronter_pixel(renderer, pixel_x, pixel_y, point->x + point->y + point->z))
+		return (put_pixel(renderer, pixel_x, pixel_y, point->color));
+	return (0);
 }
 
 void	init_projections(t_renderer	*renderer)
@@ -64,4 +98,6 @@ void	init_renderer(t_renderer	*renderer)
 	renderer->origin_y = WINDOW_H / 2;
 	init_projections(renderer);
 	renderer->projection_select = 0;
+	renderer->img.depths = malloc(WINDOW_W * WINDOW_H * sizeof(t_depth)); // @TODO Implement it as a variable lenght struct
+	renderer->img.depths[0].pixel_x = -1;
 }
