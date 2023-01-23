@@ -5,8 +5,6 @@
 
 int	put_pixel(t_renderer	*renderer, int x, int y, int color)
 {
-	x += renderer->origin_x;
-	y += renderer->origin_y;
 	if (x < 0 || x > renderer->img.w)
 		return (0);
 	if (y < 0 || y > renderer->img.h)
@@ -15,7 +13,7 @@ int	put_pixel(t_renderer	*renderer, int x, int y, int color)
 		= color;
 	return (1);
 }
-
+#include <stdio.h>
 int	is_fronter_pixel(t_renderer	*renderer, int x, int y, int depth)
 {
 	int	i;
@@ -27,13 +25,11 @@ int	is_fronter_pixel(t_renderer	*renderer, int x, int y, int depth)
 		i++;
 	if (renderer->img.depths[i].pixel_x != -1)
 	{
-		if (depth > renderer->img.depths[i].value)
-		{
-			renderer->img.depths[i].pixel_x = x;
-			renderer->img.depths[i].pixel_y = y;
-			renderer->img.depths[i].value = depth;
-			return (1);
-		}
+		if (depth <= renderer->img.depths[i].value)
+			return (0);
+		renderer->img.depths[i].pixel_x = x;
+		renderer->img.depths[i].pixel_y = y;
+		renderer->img.depths[i].value = depth;
 	}
 	else
 	{
@@ -52,18 +48,20 @@ int	put_point(t_renderer	*renderer, t_point *point)
 		= point->x * renderer->projections[renderer->projection_select].i_hat[0]
 		+ point->y * renderer->projections[renderer->projection_select].j_hat[0]
 		+ point->z * renderer->projections[renderer->projection_select].k_hat[0]
-		;
+		+ renderer->origin_x;
 	int const	pixel_y
 		= point->x * renderer->projections[renderer->projection_select].i_hat[1]
 		+ point->y * renderer->projections[renderer->projection_select].j_hat[1]
 		+ point->z * renderer->projections[renderer->projection_select].k_hat[1]
-		;
+		+ renderer->origin_y;
 
-	if (pixel_x < 0 || pixel_x > renderer->img.w || pixel_y < 0 || pixel_y > renderer->img.h)
+	if (pixel_x < 0 || pixel_x > renderer->img.w
+		|| pixel_y < 0 || pixel_y > renderer->img.h)
 		return (0);
-	if (is_fronter_pixel(renderer, pixel_x, pixel_y, point->x + point->y + point->z))
+	if (is_fronter_pixel(
+			renderer, pixel_x, pixel_y, point->x + point->y + point->z))
 		return (put_pixel(renderer, pixel_x, pixel_y, point->color));
-	return (0);
+	return (1);
 }
 
 void	init_projections(t_renderer	*renderer)
