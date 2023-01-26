@@ -1,19 +1,18 @@
-NAME := fdf
+NAME := fdf_renderer.a
 
 CC := cc
+AR := ar
 
-FLAGS := -Wall -Werror -Wextra
+CFLAGS := -Wall -Werror -Wextra
+ARFLAGS := -rc
 
-SOURCES_DIR := ./
-BINARIES_DIR := ./
-LIBRARIES_DIR := lib/
+SOURCES_DIR := ./src
+BINARIES_DIR := ./build
+INCLUDES_DIR := includes/
 
-INCLUDES := -Isources -I/usr/include -I$(LIBRARIES_DIR)minilibx-linux
+INCLUDES := -I$(INCLUDES_DIR) -I/usr/include
 
-LIBRARIES := -L$(LIBRARIES_DIR)minilibx-linux -lmlx -L/usr/lib -lXext -lX11 -lm -lz
-
-SRC := fdf.c \
-	render.c \
+SRC := render.c \
 	shapes.c \
 
 OBJ := $(SRC:.c=.o)
@@ -24,19 +23,17 @@ OBJ := $(addprefix $(BINARIES_DIR)/,$(OBJ))
 RM := rm -f
 
 $(NAME) : $(OBJ)
-	make -C $(LIBRARIES_DIR)minilibx-linux
-	$(CC) $(OBJ) $(LIBRARIES) -o $(NAME)
+	$(AR) $(ARFLAGS) $(NAME) $(OBJ)
 
 $(BINARIES_DIR) :
 	mkdir $(BINARIES_DIR)
-# @TODO rm -g3
+
 $(BINARIES_DIR)/%.o : $(SOURCES_DIR)/%.c | $(BINARIES_DIR)
-	$(CC) $(FLAGS) $(INCLUDES) -c $< -o $@ -g3
+	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@ -g3
 
 all : $(NAME)
 
 clean :
-	make -C $(LIBRARIES_DIR)minilibx-linux clean
 	$(RM) $(OBJ)
 
 fclean : clean
