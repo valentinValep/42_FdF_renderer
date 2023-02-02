@@ -92,8 +92,6 @@ void	init_renderer(t_renderer	*renderer)
 	renderer->img.w = WINDOW_W;
 	renderer->img.h = WINDOW_H;
 	renderer->img.pixels = mlx_get_data_addr(renderer->img.addr, &renderer->img.bits_per_pixel, &renderer->img.line_len, &renderer->img.endian);
-	renderer->origin_x = WINDOW_W / 2;
-	renderer->origin_y = WINDOW_H / 2;
 	init_projections(renderer);
 	renderer->projection_select = 0;
 	renderer->img.depths = malloc(WINDOW_W * WINDOW_H * sizeof(t_depth)); // @TODO Implement it as a variable lenght struct
