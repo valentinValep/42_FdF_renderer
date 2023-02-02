@@ -42,9 +42,15 @@ int	init_renderer(t_renderer	*renderer)
 	return (0);
 }
 
-void	destroy_renderer(t_renderer	*renderer)
+int	destroy_renderer(t_renderer	*renderer)
 {
-	free(renderer->img.depths);
-	mlx_destroy_display(renderer->mlx);
+	int	return_value;
+
+	return_value = mlx_destroy_window(renderer->mlx, renderer->window);
+	return_value += mlx_destroy_image(renderer->mlx, renderer->img.addr);
+	//return_value += mlx_loop_end(renderer->mlx);
+	return_value += mlx_destroy_display(renderer->mlx);
 	free(renderer->mlx);
+	free(renderer->img.depths);
+	return (return_value);
 }

@@ -54,6 +54,7 @@ typedef struct s_renderer
 
 int		init_renderer(t_renderer	*renderer)
 		__attribute__((warn_unused_result));
+int		destroy_renderer(t_renderer	*renderer);
 int		draw_point(t_renderer	*renderer, t_point *point);
 void	put_origins(t_renderer	*renderer);
 void	draw_cube(t_renderer	*renderer, t_point start, double w);
