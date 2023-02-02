@@ -1,4 +1,4 @@
-NAME := fdf_renderer.a
+NAME := libfdf_renderer.a
 
 CC := cc
 AR := ar
