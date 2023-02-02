@@ -12,7 +12,8 @@ INCLUDES_DIR := includes/
 
 INCLUDES := -I$(INCLUDES_DIR) -I/usr/include
 
-SRC := render.c \
+SRC := renderer.c \
+	render.c \
 	shapes.c \
 
 OBJ := $(SRC:.c=.o)
