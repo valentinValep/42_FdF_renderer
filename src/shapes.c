@@ -1,8 +1,6 @@
 #include "render.h"
 #include <stddef.h>
 
-int	put_pixel(t_renderer	*renderer, int x, int y, int color);
-
 double	max(double *tab, size_t size)
 {
 	size_t	i;
