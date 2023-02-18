@@ -29,7 +29,7 @@ $(BINARIES_DIR) :
 	mkdir $(BINARIES_DIR)
 
 $(BINARIES_DIR)/%.o : $(SOURCES_DIR)/%.c | $(BINARIES_DIR)
-	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@ -g3
+	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 all : $(NAME)
 
