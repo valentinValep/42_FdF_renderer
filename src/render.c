@@ -1,44 +1,6 @@
 #include "render.h"
 #include <mlx.h>
 
-int	put_pixel(t_renderer	*renderer, int x, int y, int color)
-{
-	if (x < 0 || x > renderer->img.w)
-		return (0);
-	if (y < 0 || y > renderer->img.h)
-		return (0);
-	((int *)renderer->img.pixels)[x % renderer->img.w + y * renderer->img.w]
-		= color;
-	return (1);
-}
-
-int	is_fronter_pixel(t_renderer	*renderer, int x, int y, int depth)
-{
-	int	i;
-
-	i = 0;
-	while (renderer->img.depths[i].pixel_x != -1
-		&& (renderer->img.depths[i].pixel_x != x
-			|| renderer->img.depths[i].pixel_y != y))
-		i++;
-	if (renderer->img.depths[i].pixel_x != -1)
-	{
-		if (depth <= renderer->img.depths[i].value)
-			return (0);
-		renderer->img.depths[i].pixel_x = x;
-		renderer->img.depths[i].pixel_y = y;
-		renderer->img.depths[i].value = depth;
-	}
-	else
-	{
-		renderer->img.depths[i].pixel_x = x;
-		renderer->img.depths[i].pixel_y = y;
-		renderer->img.depths[i].value = depth;
-		renderer->img.depths[i + 1].pixel_x = -1;
-	}
-	return (1);
-}
-
 // @TODO Care to reset it before re-use it for another img
 int	draw_point(t_renderer	*renderer, t_point *point)
 {
@@ -53,11 +15,16 @@ int	draw_point(t_renderer	*renderer, t_point *point)
 		+ point->z * renderer->projections[renderer->projection_select].k_hat[1]
 		+ renderer->origin_y;
 
-	if (pixel_x < 0 || pixel_x > renderer->img.w
-		|| pixel_y < 0 || pixel_y > renderer->img.h)
+	if (pixel_x < 0 || pixel_x > renderer->images.w
+		|| pixel_y < 0 || pixel_y > renderer->images.h)
 		return (0);
-	if (is_fronter_pixel(
-			renderer, pixel_x, pixel_y, point->x + point->y + point->z))
-		return (put_pixel(renderer, pixel_x, pixel_y, point->color));
-	return (1);
+	return (put_pixel(&renderer->images, (t_pixel){point->x + point->y + point->z, pixel_x, pixel_y, point->color}));
+}
+
+void	render_tick(t_renderer *renderer)
+{
+	fill_image(&renderer->images);
+	mlx_put_image_to_window(renderer->mlx, renderer->window, renderer->images.img[renderer->images.img_offset].addr, 0, 0);
+	renderer->images.img_offset = (renderer->images.img_offset + 1) % 2;
+	clear_image(&renderer->images, renderer->images.img_offset);
 }

@@ -21,36 +21,51 @@ void	init_projections(t_renderer	*renderer)
 	renderer->projections[1].k_hat[1] = -1.;
 }
 
+int	init_images(t_renderer	*renderer)
+{
+	renderer->images.img_offset = 0;
+	renderer->images.w = WINDOW_W;
+	renderer->images.h = WINDOW_H;
+	renderer->images.img[0].addr = mlx_new_image(renderer->mlx, WINDOW_W, WINDOW_H);
+	renderer->images.img[0].pixels = mlx_get_data_addr(
+			renderer->images.img[0].addr, &renderer->images.img[0].bits_per_pixel,
+			&renderer->images.img[0].line_len, &renderer->images.img[0].endian);
+	renderer->images.img[1].addr = mlx_new_image(renderer->mlx, WINDOW_W, WINDOW_H);
+	renderer->images.img[1].pixels = mlx_get_data_addr(
+			renderer->images.img[1].addr, &renderer->images.img[1].bits_per_pixel,
+			&renderer->images.img[1].line_len, &renderer->images.img[1].endian);
+	renderer->images.drawed_pixels = malloc((WINDOW_W * WINDOW_H + 1) * sizeof(t_pixel)); // @TODO Implement it as a variable lenght struct
+	if (!renderer->images.drawed_pixels)
+		return (1);
+	renderer->images.drawed_pixels[0].x = -1;
+	return (0);
+}
+
 int	init_renderer(t_renderer	*renderer)
 {
 	renderer->mlx = mlx_init();
-	renderer->window = mlx_new_window(renderer->mlx, WINDOW_W, WINDOW_H, "Test isometrique");
+	renderer->window = mlx_new_window(renderer->mlx, WINDOW_W, WINDOW_H, "Test isometrique"); // @TODO custom window name
 	renderer->origin_x = WINDOW_W / 2;
 	renderer->origin_y = WINDOW_H / 2;
-	renderer->img.addr = mlx_new_image(renderer->mlx, WINDOW_W, WINDOW_H);
-	renderer->img.w = WINDOW_W;
-	renderer->img.h = WINDOW_H;
-	renderer->img.pixels = mlx_get_data_addr(renderer->img.addr, &renderer->img.bits_per_pixel, &renderer->img.line_len, &renderer->img.endian);
 	renderer->origin_x = WINDOW_W / 2;
 	renderer->origin_y = WINDOW_H / 2;
 	init_projections(renderer);
-	renderer->projection_select = 0;
-	renderer->img.depths = malloc(WINDOW_W * WINDOW_H * sizeof(t_depth)); // @TODO Implement it as a variable lenght struct
-	if (!renderer->img.depths)
+	renderer->projection_select = 0; // @TODO change this system
+	if (init_images(renderer))
 		return (1);
-	renderer->img.depths[0].pixel_x = -1;
 	return (0);
 }
 
 int	destroy_renderer(t_renderer	*renderer)
 {
-	if (mlx_destroy_window(renderer->mlx, renderer->window))
-		return (-1);
-	if (mlx_destroy_image(renderer->mlx, renderer->img.addr))
-		return (-1);
-	if (mlx_destroy_display(renderer->mlx))
-		return (-1);
+	int	result;
+
+	result = 0;
+	free(renderer->images.drawed_pixels);
+	result += mlx_destroy_window(renderer->mlx, renderer->window);
+	result += mlx_destroy_image(renderer->mlx, renderer->images.img[0].addr);
+	result += mlx_destroy_image(renderer->mlx, renderer->images.img[1].addr);
+	result += mlx_destroy_display(renderer->mlx);
 	free(renderer->mlx);
-	free(renderer->img.depths);
 	return (0);
 }
