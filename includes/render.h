@@ -14,24 +14,31 @@ typedef struct s_point
 	int		color;
 }	t_point;
 
-typedef struct s_depth
+typedef struct s_pixel
 {
-	double	value;
-	int		pixel_x;
-	int		pixel_y;
-}	t_depth;
+	double	depth;
+	int		x;
+	int		y;
+	int		color;
+}	t_pixel;
 
 typedef struct s_img
 {
 	void	*addr;
 	char	*pixels;
-	t_depth	*depths;
-	int		h;
-	int		w;
 	int		bits_per_pixel;
 	int		line_len;
 	int		endian;
 }	t_img;
+
+typedef struct s_double_buffered_img
+{
+	t_img				img[2];
+	int					img_offset;
+	int					h;
+	int					w;
+	t_pixel				*drawed_pixels;
+}	t_double_buffered_img;
 
 typedef struct s_projection_matrix
 {
@@ -43,15 +50,21 @@ typedef struct s_projection_matrix
 
 typedef struct s_renderer
 {
-	t_img				img;
-	void				*mlx;
-	void				*window;
-	t_projection_matrix	projections[PROJECTIONS_NUMBER];
-	int					projection_select;
-	int					origin_x;
-	int					origin_y;
+	t_double_buffered_img	images;
+	void					*mlx; // @TODO remove ? (not really a renderer part)
+	void					*window;
+	t_projection_matrix		projections[PROJECTIONS_NUMBER];
+	int						projection_select;
+	int						origin_x;
+	int						origin_y;
 }	t_renderer;
 
+// Private
+void	clear_image(t_double_buffered_img *images, int offset);
+void	fill_image(t_double_buffered_img *images);
+int		put_pixel(t_double_buffered_img	*images, t_pixel pixel);
+
+// Public
 int		init_renderer(t_renderer	*renderer)
 		__attribute__((warn_unused_result));
 int		destroy_renderer(t_renderer	*renderer);
