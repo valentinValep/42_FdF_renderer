@@ -18,7 +18,8 @@ int	draw_point(t_renderer	*renderer, t_point *point)
 	if (pixel_x < 0 || pixel_x > renderer->images.w
 		|| pixel_y < 0 || pixel_y > renderer->images.h)
 		return (0);
-	return (put_pixel(&renderer->images, (t_pixel){point->x + point->y + point->z, pixel_x, pixel_y, point->color}));
+	put_pixel(&renderer->images, (t_pixel){point->x + point->y + point->z, pixel_x, pixel_y, point->color});
+	return (1);
 }
 
 void	render_tick(t_renderer *renderer)
