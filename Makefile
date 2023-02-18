@@ -1,4 +1,4 @@
-NAME := fdf_renderer.a
+NAME := libfdf_renderer.a
 
 CC := cc
 AR := ar
@@ -12,7 +12,8 @@ INCLUDES_DIR := includes/
 
 INCLUDES := -I$(INCLUDES_DIR) -I/usr/include
 
-SRC := render.c \
+SRC := renderer.c \
+	render.c \
 	shapes.c \
 
 OBJ := $(SRC:.c=.o)
@@ -25,8 +26,8 @@ RM := rm -f
 $(NAME) : $(OBJ)
 	$(AR) $(ARFLAGS) $(NAME) $(OBJ)
 
-main : $(NAME)
-	$(CC) $(CFLAGS) $(INCLUDES) main.c $(NAME) -o $@ -g3
+main : $(NAME) main.c
+	$(CC) $(CFLAGS) $(INCLUDES) main.c $(NAME) -o $@ -g3 -Llib/minilibx-linux -lmlx -L/usr/lib -lXext -lX11 -lm
 
 $(BINARIES_DIR) :
 	mkdir $(BINARIES_DIR)
@@ -41,6 +42,7 @@ clean :
 
 fclean : clean
 	$(RM) $(NAME)
+	$(RM) main
 
 re : fclean all
 
