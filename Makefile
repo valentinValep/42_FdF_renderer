@@ -25,6 +25,9 @@ RM := rm -f
 $(NAME) : $(OBJ)
 	$(AR) $(ARFLAGS) $(NAME) $(OBJ)
 
+main : $(NAME)
+	$(CC) $(CFLAGS) $(INCLUDES) main.c $(NAME) -o $@ -g3
+
 $(BINARIES_DIR) :
 	mkdir $(BINARIES_DIR)
 
