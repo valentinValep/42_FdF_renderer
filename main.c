@@ -19,7 +19,7 @@ int	main(void)
 	}
 
 	put_origins(&renderer);
-	mlx_put_image_to_window(renderer.mlx, renderer.window, renderer.img.addr, 0, 0);
+	render_tick(&renderer);
 
 	mlx_hook(renderer.window, 17, 0, hook_destroy, &renderer);
 	mlx_loop(renderer.mlx);
