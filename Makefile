@@ -26,11 +26,14 @@ RM := rm -f
 $(NAME) : $(OBJ)
 	$(AR) $(ARFLAGS) $(NAME) $(OBJ)
 
+main : $(NAME) main.c
+	$(CC) $(CFLAGS) $(INCLUDES) main.c $(NAME) -o $@ -g3 -Llib/minilibx-linux -lmlx -L/usr/lib -lXext -lX11 -lm
+
 $(BINARIES_DIR) :
 	mkdir $(BINARIES_DIR)
 
 $(BINARIES_DIR)/%.o : $(SOURCES_DIR)/%.c | $(BINARIES_DIR)
-	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
+	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@ -g3
 
 all : $(NAME)
 
@@ -39,6 +42,7 @@ clean :
 
 fclean : clean
 	$(RM) $(NAME)
+	$(RM) main
 
 re : fclean all
 
