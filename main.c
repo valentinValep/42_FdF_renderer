@@ -17,6 +17,7 @@ int	main(void)
 		write(STDERR_FILENO, "Renderer initialisation failed\n", 31);
 		exit(1);
 	}
+	put_origins(&renderer);
 	mlx_hook(renderer.window, 17, 0, hook_destroy, &renderer);
 	mlx_loop(renderer.mlx);
 	if (destroy_renderer(&renderer))
