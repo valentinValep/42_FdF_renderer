@@ -11,7 +11,7 @@ int	put_pixel(t_renderer	*renderer, int x, int y, int color)
 		= color;
 	return (1);
 }
-#include <stdio.h>
+
 int	is_fronter_pixel(t_renderer	*renderer, int x, int y, int depth)
 {
 	int	i;
