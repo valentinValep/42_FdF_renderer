@@ -19,6 +19,7 @@ int	main(void)
 	}
 
 	put_origins(&renderer);
+	draw_cube(&renderer, (t_point){20., -20., -20., 0x00FFFF00}, 50.);
 	render_tick(&renderer);
 
 	mlx_hook(renderer.window, 17, 0, hook_destroy, &renderer);
