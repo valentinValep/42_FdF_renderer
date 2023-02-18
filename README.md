@@ -1,5 +1,2 @@
-# ROADMAP
-- Add a command helper on another img
-- Add double buffering
-- Change line draw
-- Find a project name
+# Usage
+This is an usage exemple of the renderer, please do not use this branch to create your app.
