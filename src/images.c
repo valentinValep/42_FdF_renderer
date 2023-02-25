@@ -51,5 +51,6 @@ void	fill_image(t_double_buffered_img *images)
 
 void	clear_renderer(t_renderer	*renderer)
 {
+	clear_image(&renderer->images, renderer->images.img_offset);
 	renderer->images.drawed_pixels[0].x = -1;
 }
