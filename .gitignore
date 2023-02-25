@@ -1,3 +1,5 @@
 .vscode
-./build
+build/
 lib/minilibx-linux
+main
+libfdf_renderer.a

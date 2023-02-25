@@ -1,7 +1,9 @@
 # ROADMAP
 -	Add a command helper on another img
--	Add double buffering
+-	Add possibility to change projection matrix
+-	Add possibility to chose the window size
 -	Change line draw
--	Find a project name
+
+### RECURENT
 -	Norm
 -	Valgrind check
