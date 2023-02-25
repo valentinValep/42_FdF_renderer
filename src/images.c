@@ -48,3 +48,8 @@ void	fill_image(t_double_buffered_img *images)
 		i++;
 	}
 }
+
+void	clear_renderer(t_renderer	*renderer)
+{
+	renderer->images.drawed_pixels[0].x = -1;
+}
