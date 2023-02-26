@@ -1,22 +1,16 @@
 #include "render.h"
 #include <stddef.h>
+#include <math.h>
 
-double	max(double *tab, size_t size)
+double	get_distance(t_point p1, t_point p2)
 {
-	size_t	i;
-	double	max;
+	double	res;
 
-	if (!size)
-		return (0.);
-	i = 1;
-	max = tab[0];
-	while (i < size)
-	{
-		if (max < tab[i])
-			max = tab[i];
-		i++;
-	}
-	return (max);
+	res = 0;
+	res += (p1.x - p2.x) * (p1.x - p2.x);
+	res += (p1.y - p2.y) * (p1.y - p2.y);
+	res += (p1.z - p2.z) * (p1.z - p2.z);
+	return (sqrt(res));
 }
 
 void	draw_line(t_renderer	*renderer, t_point p1, t_point p2)
@@ -25,23 +19,19 @@ void	draw_line(t_renderer	*renderer, t_point p1, t_point p2)
 	double	x;
 	double	y;
 	double	z;
-	double	m;
+	double	d;
 
 	x = p1.x;
 	y = p1.y;
 	z = p1.z;
 	i = 0;
-	m = max((double []){
-			(p2.x - p1.x) *((p2.x - p1.x > 0) * 2 - 1),
-			(p2.y - p1.y) * ((p2.y - p1.y > 0) * 2 - 1),
-			(p2.z - p1.z) * ((p2.z - p1.z > 0) * 2 - 1)},
-			3);
-	while (i < m)
+	d = get_distance(p1, p2);
+	while (i < d)
 	{
 		draw_point(renderer, (t_point){x, y, z, p1.color});
-		x += (p2.x - p1.x) / m;
-		y += (p2.x - p1.x) / m;
-		z += (p2.x - p1.x) / m;
+		x += (p2.x - p1.x) / d;
+		y += (p2.y - p1.y) / d;
+		z += (p2.z - p1.z) / d;
 		i++;
 	}
 }
