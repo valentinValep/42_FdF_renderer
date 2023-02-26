@@ -1,8 +1,7 @@
 #include "render.h"
 #include <mlx.h>
 
-// @TODO Care to reset it before re-use it for another img
-int	draw_point(t_renderer	*renderer, t_point point)
+t_pixel	project(t_renderer	*renderer, t_point point)
 {
 	int const	pixel_x
 		= point.x * renderer->projections[renderer->projection_select].i_hat[0]
@@ -15,10 +14,23 @@ int	draw_point(t_renderer	*renderer, t_point point)
 		+ point.z * renderer->projections[renderer->projection_select].k_hat[1]
 		+ renderer->origin_y;
 
-	if (pixel_x < 0 || pixel_x > renderer->images.w
-		|| pixel_y < 0 || pixel_y > renderer->images.h)
+	return (
+		(t_pixel){
+		point.x + point.y + point.z,
+		pixel_x,
+		pixel_y,
+		point.color
+	});
+}
+
+int	draw_point(t_renderer	*renderer, t_point point)
+{
+	const t_pixel	pixel = project(renderer, point);
+
+	if (pixel.x < 0 || pixel.x > renderer->images.w
+		|| pixel.y < 0 || pixel.y > renderer->images.h)
 		return (0);
-	put_pixel(&renderer->images, (t_pixel){point.x + point.y + point.z, pixel_x, pixel_y, point.color});
+	put_pixel(&renderer->images, pixel);
 	return (1);
 }
 
