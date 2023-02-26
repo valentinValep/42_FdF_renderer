@@ -63,6 +63,7 @@ typedef struct s_renderer
 void	clear_image(t_double_buffered_img *images, int offset);
 void	fill_image(t_double_buffered_img *images);
 void	put_pixel(t_double_buffered_img	*images, t_pixel pixel);
+t_pixel	project(t_renderer *renderer, t_point point);
 
 // Public
 int		init_renderer(t_renderer	*renderer)

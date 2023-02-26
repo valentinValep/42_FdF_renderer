@@ -2,37 +2,67 @@
 #include <stddef.h>
 #include <math.h>
 
-double	get_distance(t_point p1, t_point p2)
-{
-	double	res;
+//static double	get_distance(t_point p1, t_point p2)
+//{
+//	double	res;
 
-	res = 0;
-	res += (p1.x - p2.x) * (p1.x - p2.x);
-	res += (p1.y - p2.y) * (p1.y - p2.y);
-	res += (p1.z - p2.z) * (p1.z - p2.z);
-	return (sqrt(res));
-}
+//	res = 0;
+//	res += (p1.x - p2.x) * (p1.x - p2.x);
+//	res += (p1.y - p2.y) * (p1.y - p2.y);
+//	res += (p1.z - p2.z) * (p1.z - p2.z);
+//	return (sqrt(res));
+//}
+
+//void	draw_line(t_renderer	*renderer, t_point p1, t_point p2)
+//{
+//	int		i;
+//	double	x;
+//	double	y;
+//	double	z;
+//	double	d;
+
+//	x = p1.x;
+//	y = p1.y;
+//	z = p1.z;
+//	i = 0;
+//	d = get_distance(p1, p2);
+//	while (i < d)
+//	{
+//		draw_point(renderer, (t_point){x, y, z, p1.color});
+//		x += (p2.x - p1.x) / d;
+//		y += (p2.y - p1.y) / d;
+//		z += (p2.z - p1.z) / d;
+//		i++;
+//	}
+//}
 
 void	draw_line(t_renderer	*renderer, t_point p1, t_point p2)
 {
-	int		i;
-	double	x;
-	double	y;
-	double	z;
-	double	d;
+	const t_pixel	pix_1 = project(renderer, p1);
+	const t_pixel	pix_2 = project(renderer, p2);
+	t_pixel			pix_current;
+	int				dx;
+	int				dy;
+	int				p;
 
-	x = p1.x;
-	y = p1.y;
-	z = p1.z;
-	i = 0;
-	d = get_distance(p1, p2);
-	while (i < d)
+	pix_current.color = pix_1.color;
+	pix_current.depth = pix_1.depth;
+	pix_current.x = pix_1.x;
+	pix_current.y = pix_1.y;
+	dx = (pix_2.x - pix_1.x) * ((pix_2.x - pix_1.x > 0) * 2 - 1);
+	dy = (pix_2.y - pix_1.y) * ((pix_2.y - pix_1.y > 0) * 2 - 1);
+	p = 2 * dy - dx;
+	while (pix_current.x <= pix_2.x)
 	{
-		draw_point(renderer, (t_point){x, y, z, p1.color});
-		x += (p2.x - p1.x) / d;
-		y += (p2.y - p1.y) / d;
-		z += (p2.z - p1.z) / d;
-		i++;
+		put_pixel(&renderer->images, pix_current);
+		pix_current.x++;
+		if (p < 0)
+			p += 2 * dy;
+		else
+		{
+			pix_current.y++;
+			p += 2 * (dy - dx);
+		}
 	}
 }
 
