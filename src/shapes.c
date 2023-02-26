@@ -31,13 +31,17 @@ void	draw_line(t_renderer	*renderer, t_point p1, t_point p2)
 	y = p1.y;
 	z = p1.z;
 	i = 0;
-	m = max((double []){p2.x, p2.y, p2.z}, 3);
+	m = max((double []){
+			(p2.x - p1.x) *((p2.x - p1.x > 0) * 2 - 1),
+			(p2.y - p1.y) * ((p2.y - p1.y > 0) * 2 - 1),
+			(p2.z - p1.z) * ((p2.z - p1.z > 0) * 2 - 1)},
+			3);
 	while (i < m)
 	{
 		draw_point(renderer, (t_point){x, y, z, p1.color});
-		x += p2.x / m;
-		y += p2.y / m;
-		z += p2.z / m;
+		x += (p2.x - p1.x) / m;
+		y += (p2.x - p1.x) / m;
+		z += (p2.x - p1.x) / m;
 		i++;
 	}
 }
