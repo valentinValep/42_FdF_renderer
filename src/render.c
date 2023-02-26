@@ -2,23 +2,23 @@
 #include <mlx.h>
 
 // @TODO Care to reset it before re-use it for another img
-int	draw_point(t_renderer	*renderer, t_point *point)
+int	draw_point(t_renderer	*renderer, t_point point)
 {
 	int const	pixel_x
-		= point->x * renderer->projections[renderer->projection_select].i_hat[0]
-		+ point->y * renderer->projections[renderer->projection_select].j_hat[0]
-		+ point->z * renderer->projections[renderer->projection_select].k_hat[0]
+		= point.x * renderer->projections[renderer->projection_select].i_hat[0]
+		+ point.y * renderer->projections[renderer->projection_select].j_hat[0]
+		+ point.z * renderer->projections[renderer->projection_select].k_hat[0]
 		+ renderer->origin_x;
 	int const	pixel_y
-		= point->x * renderer->projections[renderer->projection_select].i_hat[1]
-		+ point->y * renderer->projections[renderer->projection_select].j_hat[1]
-		+ point->z * renderer->projections[renderer->projection_select].k_hat[1]
+		= point.x * renderer->projections[renderer->projection_select].i_hat[1]
+		+ point.y * renderer->projections[renderer->projection_select].j_hat[1]
+		+ point.z * renderer->projections[renderer->projection_select].k_hat[1]
 		+ renderer->origin_y;
 
 	if (pixel_x < 0 || pixel_x > renderer->images.w
 		|| pixel_y < 0 || pixel_y > renderer->images.h)
 		return (0);
-	put_pixel(&renderer->images, (t_pixel){point->x + point->y + point->z, pixel_x, pixel_y, point->color});
+	put_pixel(&renderer->images, (t_pixel){point.x + point.y + point.z, pixel_x, pixel_y, point.color});
 	return (1);
 }
 

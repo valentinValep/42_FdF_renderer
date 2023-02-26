@@ -1,22 +1,16 @@
 #include "render.h"
 #include <stddef.h>
+#include <math.h>
 
-double	max(double *tab, size_t size)
+double	get_distance(t_point p1, t_point p2)
 {
-	size_t	i;
-	double	max;
+	double	res;
 
-	if (!size)
-		return (0.);
-	i = 1;
-	max = tab[0];
-	while (i < size)
-	{
-		if (max < tab[i])
-			max = tab[i];
-		i++;
-	}
-	return (max);
+	res = 0;
+	res += (p1.x - p2.x) * (p1.x - p2.x);
+	res += (p1.y - p2.y) * (p1.y - p2.y);
+	res += (p1.z - p2.z) * (p1.z - p2.z);
+	return (sqrt(res));
 }
 
 void	draw_line(t_renderer	*renderer, t_point p1, t_point p2)
@@ -25,19 +19,19 @@ void	draw_line(t_renderer	*renderer, t_point p1, t_point p2)
 	double	x;
 	double	y;
 	double	z;
-	double	m;
+	double	d;
 
 	x = p1.x;
 	y = p1.y;
 	z = p1.z;
 	i = 0;
-	m = max((double []){p2.x, p2.y, p2.z}, 3);
-	while (i < m)
+	d = get_distance(p1, p2);
+	while (i < d)
 	{
-		draw_point(renderer, &(t_point){x, y, z, p1.color});
-		x += p2.x / m;
-		y += p2.y / m;
-		z += p2.z / m;
+		draw_point(renderer, (t_point){x, y, z, p1.color});
+		x += (p2.x - p1.x) / d;
+		y += (p2.y - p1.y) / d;
+		z += (p2.z - p1.z) / d;
 		i++;
 	}
 }
@@ -72,12 +66,12 @@ void	put_origins(t_renderer	*renderer)
 	int	i;
 
 	i = 0;
-	while (draw_point(renderer, &(t_point){i, 0, 0, 0x00FF0000}))
+	while (draw_point(renderer, (t_point){i, 0, 0, 0x00FF0000}))
 		i++;
 	i = 0;
-	while (draw_point(renderer, &(t_point){0, i, 0, 0x0000FF00}))
+	while (draw_point(renderer, (t_point){0, i, 0, 0x0000FF00}))
 		i++;
 	i = 0;
-	while (draw_point(renderer, &(t_point){0, 0, i, 0x000000FF}))
+	while (draw_point(renderer, (t_point){0, 0, i, 0x000000FF}))
 		i++;
 }
