@@ -71,28 +71,34 @@ void	draw_line(t_renderer	*renderer, t_point p1, t_point p2)
 	}
 }
 
+void	draw_vector(t_renderer *renderer, t_point p1, t_point p2)
+{
+	draw_line(renderer, p1,
+		(t_point){p2.x + p1.x, p2.y + p1.y, p2.z + p1.z, p1.color});
+}
+
 void	draw_cube(t_renderer	*renderer, t_point start, double w)
 {
-	draw_line(renderer, start, (t_point){w, 0, 0, start.color});
-	draw_line(renderer, start, (t_point){0, w, 0, start.color});
-	draw_line(renderer, start, (t_point){0, 0, w, start.color});
-	draw_line(renderer, (t_point){start.x + w, start.y, start.z, start.color},
+	draw_vector(renderer, start, (t_point){w, 0, 0, start.color});
+	draw_vector(renderer, start, (t_point){0, w, 0, start.color});
+	draw_vector(renderer, start, (t_point){0, 0, w, start.color});
+	draw_vector(renderer, (t_point){start.x + w, start.y, start.z, start.color},
 		(t_point){0, 0, w, start.color});
-	draw_line(renderer, (t_point){start.x, start.y + w, start.z, start.color},
+	draw_vector(renderer, (t_point){start.x, start.y + w, start.z, start.color},
 		(t_point){0, 0, w, start.color});
-	draw_line(renderer, (t_point){start.x + w, start.y + w, start.z, start.color},
+	draw_vector(renderer, (t_point){start.x + w, start.y + w, start.z, start.color},
 		(t_point){0, 0, w, start.color});
-	draw_line(renderer, (t_point){start.x + w, start.y, start.z + w, start.color},
+	draw_vector(renderer, (t_point){start.x + w, start.y, start.z + w, start.color},
 		(t_point){0, w, 0, start.color});
-	draw_line(renderer, (t_point){start.x, start.y + w, start.z + w, start.color},
+	draw_vector(renderer, (t_point){start.x, start.y + w, start.z + w, start.color},
 		(t_point){w, 0, 0, start.color});
-	draw_line(renderer, (t_point){start.x + w, start.y, start.z, start.color},
+	draw_vector(renderer, (t_point){start.x + w, start.y, start.z, start.color},
 		(t_point){0, w, 0, start.color});
-	draw_line(renderer, (t_point){start.x, start.y + w, start.z, start.color},
+	draw_vector(renderer, (t_point){start.x, start.y + w, start.z, start.color},
 		(t_point){w, 0, 0, start.color});
-	draw_line(renderer, (t_point){start.x, start.y, start.z + w, start.color},
+	draw_vector(renderer, (t_point){start.x, start.y, start.z + w, start.color},
 		(t_point){w, 0, 0, start.color});
-	draw_line(renderer, (t_point){start.x, start.y, start.z + w, start.color},
+	draw_vector(renderer, (t_point){start.x, start.y, start.z + w, start.color},
 		(t_point){0, w, 0, start.color});
 }
 
