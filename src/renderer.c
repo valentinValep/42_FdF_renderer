@@ -23,21 +23,28 @@ void	init_projections(t_renderer	*renderer)
 
 int	init_images(t_renderer	*renderer)
 {
+	int	i;
+
 	renderer->images.img_offset = 0;
 	renderer->images.w = WINDOW_W;
 	renderer->images.h = WINDOW_H;
-	renderer->images.img[0].addr = mlx_new_image(renderer->mlx, WINDOW_W, WINDOW_H);
+	renderer->images.img[0].addr = mlx_new_image(renderer->mlx, renderer->images.w, renderer->images.h);
 	renderer->images.img[0].pixels = mlx_get_data_addr(
 			renderer->images.img[0].addr, &renderer->images.img[0].bits_per_pixel,
 			&renderer->images.img[0].line_len, &renderer->images.img[0].endian);
-	renderer->images.img[1].addr = mlx_new_image(renderer->mlx, WINDOW_W, WINDOW_H);
+	renderer->images.img[1].addr = mlx_new_image(renderer->mlx, renderer->images.w, renderer->images.h);
 	renderer->images.img[1].pixels = mlx_get_data_addr(
 			renderer->images.img[1].addr, &renderer->images.img[1].bits_per_pixel,
 			&renderer->images.img[1].line_len, &renderer->images.img[1].endian);
-	renderer->images.drawed_pixels = malloc((WINDOW_W * WINDOW_H + 1) * sizeof(t_pixel)); // @TODO Implement it as a variable lenght struct
+	renderer->images.drawed_pixels = malloc((renderer->images.w * renderer->images.h + 1) * sizeof(t_pixel));
 	if (!renderer->images.drawed_pixels)
 		return (1);
-	renderer->images.drawed_pixels[0].x = -1;
+	i = 0;
+	while (i < renderer->images.h * renderer->images.w)
+	{
+		renderer->images.drawed_pixels[i].x = -1;
+		i += renderer->images.w;
+	}
 	return (0);
 }
 
