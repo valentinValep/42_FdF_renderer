@@ -1,11 +1,14 @@
 #include "render.h"
 #include <mlx.h>
 
-void	put_pixel(t_double_buffered_img	*images, t_pixel pixel)
+int	put_pixel(t_double_buffered_img *images, t_pixel pixel)
 {
 	int	i;
 
 	i = 0;
+	if (pixel.x < 0 || pixel.x > images->w
+		|| pixel.y < 0 || pixel.y > images->h)
+		return (1);
 	while (images->drawed_pixels[i].x != -1
 		&& (images->drawed_pixels[i].x != pixel.x
 			|| images->drawed_pixels[i].y != pixel.y))
@@ -13,7 +16,7 @@ void	put_pixel(t_double_buffered_img	*images, t_pixel pixel)
 	if (images->drawed_pixels[i].x != -1)
 	{
 		if (pixel.depth <= images->drawed_pixels[i].depth)
-			return ;
+			return (0);
 	}
 	else
 		images->drawed_pixels[i + 1].x = -1;
@@ -21,6 +24,7 @@ void	put_pixel(t_double_buffered_img	*images, t_pixel pixel)
 	images->drawed_pixels[i].y = pixel.y;
 	images->drawed_pixels[i].depth = pixel.depth;
 	images->drawed_pixels[i].color = pixel.color;
+	return (0);
 }
 
 void	clear_image(t_double_buffered_img *images, int offset)
