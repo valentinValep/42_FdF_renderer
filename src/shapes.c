@@ -50,6 +50,13 @@ void	draw_line(t_renderer	*renderer, t_point p1, t_point p2)
 	if (dy > dx)
 	{
 		// vertical (parcours par ligne)
+		while (current.y < pix_2.y)
+		{
+			step = (double)current.y / dy * dx;
+			current.x = (int)step;
+			put_pixel(&renderer->images, current);
+			current.y++;
+		}
 	}
 	else
 	{
