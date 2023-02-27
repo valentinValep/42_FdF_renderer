@@ -36,34 +36,38 @@
 //	}
 //}
 
-void	draw_line(t_renderer	*renderer, t_point p1, t_point p2)
+void	draw_line(t_renderer *renderer, t_point p1, t_point p2)
 {
 	const t_pixel	pix_1 = project(renderer, p1);
 	const t_pixel	pix_2 = project(renderer, p2);
 	t_pixel			current;
-	const int		dx = (pix_2.x - pix_1.x) * ((pix_2.x - pix_1.x > 0) * 2 - 1);
-	const int		dy = (pix_2.y - pix_1.y) * ((pix_2.y - pix_1.y > 0) * 2 - 1);
+	const int		dx = (pix_2.x - pix_1.x) * ((pix_2.x - pix_1.x > 0) * 2 -1);
+	const int		dy = (pix_2.y - pix_1.y) * ((pix_2.y - pix_1.y > 0) * 2 -1);
 
 	current = (t_pixel){
 		(pix_1.depth + pix_2.depth) / 2, pix_1.x, pix_1.y, pix_1.color};
 	if (dy > dx)
 	{
-		// vertical (parcours par ligne)
-		while (current.y < pix_2.y)
+		while ((pix_1.y <= pix_2.y && current.y <= pix_2.y)
+			|| (pix_1.y > pix_2.y && current.y >= pix_2.y))
 		{
-			current.x = (((double)current.y - pix_1.y) / dy * dx) + pix_1.x;
+			current.x = (((double)current.y - pix_1.y)
+					* (((double)current.y - pix_1.y > 0) * 2 - 1) / dy
+					* (pix_2.x - pix_1.x)) + pix_1.x;
 			put_pixel(&renderer->images, current);
-			current.y++;
+			current.y += (pix_1.y <= pix_2.y) * 2 - 1;
 		}
 	}
 	else
 	{
-		// horizontal (parcours par colonne)
-		while (current.x < pix_2.x)
+		while ((pix_1.x <= pix_2.x && current.x <= pix_2.x)
+			|| (pix_1.x > pix_2.x && current.x >= pix_2.x))
 		{
-			current.y = (((double)current.x - pix_1.x) / dx * dy) + pix_1.y;
+			current.y = (((double)current.x - pix_1.x)
+					* (((double)current.x - pix_1.x > 0) * 2 - 1) / dx
+					* (pix_2.y - pix_1.y)) + pix_1.y;
 			put_pixel(&renderer->images, current);
-			current.x++;
+			current.x += (pix_1.x <= pix_2.x) * 2 - 1;
 		}
 	}
 }
@@ -99,17 +103,17 @@ void	draw_cube(t_renderer	*renderer, t_point start, double w)
 		(t_point){0, w, 0, start.color});
 }
 
-void	put_origins(t_renderer	*renderer)
+void	put_origins(t_renderer *renderer)
 {
 	int	i;
 
 	i = 0;
-	while (draw_point(renderer, (t_point){i, 0, 0, 0x00FF0000}))
+	while (!draw_point(renderer, (t_point){i, 0, 0, 0x00FF0000}))
 		i++;
 	i = 0;
-	while (draw_point(renderer, (t_point){0, i, 0, 0x0000FF00}))
+	while (!draw_point(renderer, (t_point){0, i, 0, 0x0000FF00}))
 		i++;
 	i = 0;
-	while (draw_point(renderer, (t_point){0, 0, i, 0x000000FF}))
+	while (!draw_point(renderer, (t_point){0, 0, i, 0x000000FF}))
 		i++;
 }

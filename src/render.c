@@ -23,15 +23,9 @@ t_pixel	project(t_renderer	*renderer, t_point point)
 	});
 }
 
-int	draw_point(t_renderer	*renderer, t_point point)
+int	draw_point(t_renderer *renderer, t_point point)
 {
-	const t_pixel	pixel = project(renderer, point);
-
-	if (pixel.x < 0 || pixel.x > renderer->images.w
-		|| pixel.y < 0 || pixel.y > renderer->images.h)
-		return (0);
-	put_pixel(&renderer->images, pixel);
-	return (1);
+	return (put_pixel(&renderer->images, project(renderer, point)));
 }
 
 void	render_tick(t_renderer *renderer)
