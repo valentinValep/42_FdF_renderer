@@ -41,7 +41,6 @@ void	draw_line(t_renderer	*renderer, t_point p1, t_point p2)
 	const t_pixel	pix_1 = project(renderer, p1);
 	const t_pixel	pix_2 = project(renderer, p2);
 	t_pixel			current;
-	double			step;
 	const int		dx = (pix_2.x - pix_1.x) * ((pix_2.x - pix_1.x > 0) * 2 - 1);
 	const int		dy = (pix_2.y - pix_1.y) * ((pix_2.y - pix_1.y > 0) * 2 - 1);
 
@@ -52,8 +51,7 @@ void	draw_line(t_renderer	*renderer, t_point p1, t_point p2)
 		// vertical (parcours par ligne)
 		while (current.y < pix_2.y)
 		{
-			step = (double)current.y / dy * dx;
-			current.x = (int)step;
+			current.x = (((double)current.y - pix_1.y) / dy * dx) + pix_1.x;
 			put_pixel(&renderer->images, current);
 			current.y++;
 		}
@@ -63,8 +61,7 @@ void	draw_line(t_renderer	*renderer, t_point p1, t_point p2)
 		// horizontal (parcours par colonne)
 		while (current.x < pix_2.x)
 		{
-			step = (double)current.x / dx * dy;
-			current.y = (int)step;
+			current.y = (((double)current.x - pix_1.x) / dx * dy) + pix_1.y;
 			put_pixel(&renderer->images, current);
 			current.x++;
 		}
