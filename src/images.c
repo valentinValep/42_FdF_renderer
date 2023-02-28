@@ -6,10 +6,11 @@ int	put_pixel(t_double_buffered_img *images, t_pixel pixel)
 	int	i;
 
 	i = 0;
-	if (pixel.x < 0 || pixel.x > images->w
-		|| pixel.y < 0 || pixel.y > images->h)
+	if (pixel.x < 0 || pixel.x >= images->w
+		|| pixel.y < 0 || pixel.y >= images->h)
 		return (1);
-	while (images->drawed_pixels[i + pixel.y * images->w].x != -1
+	while (i < images->w
+		&& images->drawed_pixels[i + pixel.y * images->w].x != -1
 		&& (images->drawed_pixels[i + pixel.y * images->w].x != pixel.x
 			|| images->drawed_pixels[i + pixel.y * images->w].y != pixel.y))
 		i++;
@@ -19,7 +20,8 @@ int	put_pixel(t_double_buffered_img *images, t_pixel pixel)
 			return (0);
 	}
 	else
-		images->drawed_pixels[i + pixel.y * images->w + 1].x = -1; // @TODO verif not a full line
+		if (i < images->w - 1)
+			images->drawed_pixels[i + pixel.y * images->w + 1].x = -1;
 	images->drawed_pixels[i + pixel.y * images->w].x = pixel.x;
 	images->drawed_pixels[i + pixel.y * images->w].y = pixel.y;
 	images->drawed_pixels[i + pixel.y * images->w].depth = pixel.depth;
