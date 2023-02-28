@@ -36,15 +36,12 @@ int	init_images(t_renderer	*renderer)
 	renderer->images.img[1].pixels = mlx_get_data_addr(
 			renderer->images.img[1].addr, &renderer->images.img[1].bits_per_pixel,
 			&renderer->images.img[1].line_len, &renderer->images.img[1].endian);
-	renderer->images.drawed_pixels = malloc((renderer->images.w * renderer->images.h + 1) * sizeof(t_pixel));
+	renderer->images.drawed_pixels = malloc((renderer->images.w * renderer->images.h) * sizeof(t_pixel));
 	if (!renderer->images.drawed_pixels)
 		return (1);
 	i = 0;
-	while (i < renderer->images.h * renderer->images.w)
-	{
-		renderer->images.drawed_pixels[i].x = -1;
-		i += renderer->images.w;
-	}
+	while (i < renderer->images.h)
+		renderer->images.drawed_pixels[i++ *renderer->images.w].x = -1;
 	return (0);
 }
 
