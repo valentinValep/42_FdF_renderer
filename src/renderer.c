@@ -40,8 +40,8 @@ int	init_images(t_renderer	*renderer)
 	if (!renderer->images.drawed_pixels)
 		return (1);
 	i = 0;
-	while (i < renderer->images.h)
-		renderer->images.drawed_pixels[i++ *renderer->images.w].x = -1;
+	while (i < renderer->images.w * renderer->images.h)
+		renderer->images.drawed_pixels[i++].x = -1;
 	return (0);
 }
 
