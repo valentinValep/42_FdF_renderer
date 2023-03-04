@@ -16,6 +16,7 @@ SRC := renderer.c \
 	render.c \
 	shapes.c \
 	images.c \
+	lines.c \
 
 OBJ := $(SRC:.c=.o)
 

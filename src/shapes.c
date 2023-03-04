@@ -36,50 +36,6 @@
 //	}
 //}
 
-
-
-void	draw_line(t_renderer *renderer, t_point p1, t_point p2)
-{
-	const t_pixel	pix_1 = project(renderer, p1);
-	const t_pixel	pix_2 = project(renderer, p2);
-	t_pixel			current;
-	const t_pixel	diff = (t_pixel){
-		(pix_2.depth - pix_1.depth) * ((pix_2.depth - pix_1.depth > 0) * 2 -1),
-		(pix_2.x - pix_1.x) * ((pix_2.x - pix_1.x > 0) * 2 -1),
-		(pix_2.y - pix_1.y) * ((pix_2.y - pix_1.y > 0) * 2 -1),
-		(pix_2.color - pix_1.color) * ((pix_2.color - pix_1.color > 0) * 2 -1)
-	};
-
-	current = (t_pixel){
-		pix_1.depth, pix_1.x, pix_1.y, pix_1.color};
-	if (diff.y > diff.x)
-	{
-		while ((pix_1.y <= pix_2.y && current.y <= pix_2.y)
-			|| (pix_1.y > pix_2.y && current.y >= pix_2.y))
-		{
-			current.x = (((double)current.y - pix_1.y)
-					* (((double)current.y - pix_1.y > 0) * 2 - 1) / diff.y
-					* (pix_2.x - pix_1.x)) + pix_1.x;
-			current.depth += (pix_2.depth - pix_1.depth) / diff.depth;
-			put_pixel(&renderer->images, current);
-			current.y += (pix_1.y <= pix_2.y) * 2 - 1;
-		}
-	}
-	else
-	{
-		while ((pix_1.x <= pix_2.x && current.x <= pix_2.x)
-			|| (pix_1.x > pix_2.x && current.x >= pix_2.x))
-		{
-			current.y = (((double)current.x - pix_1.x)
-					* (((double)current.x - pix_1.x > 0) * 2 - 1) / diff.x
-					* (pix_2.y - pix_1.y)) + pix_1.y;
-			current.depth += (pix_2.depth - pix_1.depth) / diff.depth;
-			put_pixel(&renderer->images, current);
-			current.x += (pix_1.x <= pix_2.x) * 2 - 1;
-		}
-	}
-}
-
 void	draw_vector(t_renderer *renderer, t_point p1, t_point p2)
 {
 	draw_line(renderer, p1,
