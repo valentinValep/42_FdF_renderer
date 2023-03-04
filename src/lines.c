@@ -20,7 +20,7 @@ void	draw_horizontal_line(t_renderer *renderer, t_pixel start, t_pixel end)
 	{
 		put_pixel(&renderer->images, (t_pixel){
 			start.depth + depth_step * i,
-			start.x + ((start.x - end.x > 0) * 2 -1) * i,
+			start.x + ((end.x - start.x > 0) * 2 -1) * i,
 			start.y + y_step * i,
 			start.color});
 		i++;
@@ -41,7 +41,7 @@ void	draw_vertical_line(t_renderer *renderer, t_pixel start, t_pixel end)
 		put_pixel(&renderer->images, (t_pixel){
 			start.depth + depth_step * i,
 			start.x + x_step * i,
-			start.y + ((start.y - end.y > 0) * 2 -1) * i,
+			start.y + ((end.y - start.y > 0) * 2 -1) * i,
 			start.color});
 		i++;
 	}
