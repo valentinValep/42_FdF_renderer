@@ -42,25 +42,25 @@ int	main(void)
 	draw_line(&renderer, (t_point){-870, 700, 0, -1}, (t_point){200, -700, 0, -1});
 
 	draw_cube(&renderer, (t_point){20., -20., -20., 0x00FFFF00}, 50.);
-	draw_line(&renderer, (t_point){0, 0, 0, -1}, (t_point){200, -200, 0, -1});
-	draw_line(&renderer, (t_point){0, 0, 0, -1}, (t_point){200, 0, 0, -1});
-	draw_line(&renderer, (t_point){0, 0, 0, -1}, (t_point){200, -50, 0, -1});
-	draw_line(&renderer, (t_point){0, 0, 0, -1}, (t_point){200, 50, 0, -1});
-	draw_line(&renderer, (t_point){0, 0, 0, -1}, (t_point){200, 200, 0, -1});
-	draw_line(&renderer, (t_point){0, 0, 0, -1}, (t_point){0, 200, 0, -1});
-	draw_line(&renderer, (t_point){0, 0, 0, -1}, (t_point){50, 200, 0, -1});
-	draw_line(&renderer, (t_point){0, 0, 0, -1}, (t_point){-50, 200, 0, -1});
-	draw_line(&renderer, (t_point){0, 0, 0, -1}, (t_point){-200, 200, 0, -1});
+	draw_line(&renderer, (t_point){0, 0, 0, 0x00FF0000}, (t_point){200, -200, 0, 0x00FF7F00});
+	draw_line(&renderer, (t_point){0, 0, 0, 0x00FF7F00}, (t_point){200, 0, 0, 0x00FFFF00});
+	draw_line(&renderer, (t_point){0, 0, 0, 0x00FFFF00}, (t_point){200, -50, 0, 0x007FFF00});
+	draw_line(&renderer, (t_point){0, 0, 0, 0x007FFF00}, (t_point){200, 50, 0, 0x0000FF00});
+	draw_line(&renderer, (t_point){0, 0, 0, 0x0000FF00}, (t_point){200, 200, 0, 0x0000FF7F});
+	draw_line(&renderer, (t_point){0, 0, 0, 0x0000FF7F}, (t_point){0, 200, 0, 0x0000FFFF});
+	draw_line(&renderer, (t_point){0, 0, 0, 0x0000FFFF}, (t_point){50, 200, 0, 0x00007FFF});
+	draw_line(&renderer, (t_point){0, 0, 0, 0x00007FFF}, (t_point){-50, 200, 0, 0x000000FF});
+	draw_line(&renderer, (t_point){0, 0, 0, 0x000000FF}, (t_point){-200, 200, 0, 0x007F00FF});
 
-	draw_line(&renderer, (t_point){0, 0, 0, -1}, (t_point){-200, 200, 0, -1});
-	draw_line(&renderer, (t_point){0, 0, 0, -1}, (t_point){-200, 0, 0, -1});
-	draw_line(&renderer, (t_point){0, 0, 0, -1}, (t_point){-200, 50, 0, -1});
-	draw_line(&renderer, (t_point){0, 0, 0, -1}, (t_point){-200, -50, 0, -1});
-	draw_line(&renderer, (t_point){0, 0, 0, -1}, (t_point){-200, -200, 0, -1});
-	draw_line(&renderer, (t_point){0, 0, 0, -1}, (t_point){0, -200, 0, -1});
-	draw_line(&renderer, (t_point){0, 0, 0, -1}, (t_point){50, -200, 0, -1});
-	draw_line(&renderer, (t_point){0, 0, 0, -1}, (t_point){-50, -200, 0, -1});
-	draw_line(&renderer, (t_point){0, 0, 0, -1}, (t_point){-200, -200, 0, -1});
+	draw_line(&renderer, (t_point){0, 0, 0, 0x007F00FF}, (t_point){-200, 200, 0, 0x00FF00FF});
+	draw_line(&renderer, (t_point){0, 0, 0, 0x00FF00FF}, (t_point){-200, 0, 0, 0x00FF007F});
+	draw_line(&renderer, (t_point){0, 0, 0, 0x00FF007F}, (t_point){-200, 50, 0, 0x00FF7F7F});
+	draw_line(&renderer, (t_point){0, 0, 0, 0x00FF7F7F}, (t_point){-200, -50, 0, 0x007FFF7F});
+	draw_line(&renderer, (t_point){0, 0, 0, 0x007FFF7F}, (t_point){-200, -200, 0, 0x007F7FFF});
+	draw_line(&renderer, (t_point){0, 0, 0, 0x007F7FFF}, (t_point){0, -200, 0, 0x00808080});
+	draw_line(&renderer, (t_point){0, 0, 0, 0x00808080}, (t_point){50, -200, 0, 0x00C0C0C0});
+	draw_line(&renderer, (t_point){0, 0, 0, 0x00C0C0C0}, (t_point){-50, -200, 0, 0x00FFFFFF});
+	draw_line(&renderer, (t_point){0, 0, 0, 0x00FFFFFF}, (t_point){-200, -200, 0, 0x00FF0000});
 	render_tick(&renderer);
 
 	mlx_hook(renderer.window, 17, 0, hook_destroy, &renderer);
