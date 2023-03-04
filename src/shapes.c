@@ -2,40 +2,6 @@
 #include <stddef.h>
 #include <math.h>
 
-//static double	get_distance(t_point p1, t_point p2)
-//{
-//	double	res;
-
-//	res = 0;
-//	res += (p1.x - p2.x) * (p1.x - p2.x);
-//	res += (p1.y - p2.y) * (p1.y - p2.y);
-//	res += (p1.z - p2.z) * (p1.z - p2.z);
-//	return (sqrt(res));
-//}
-
-//void	draw_line(t_renderer	*renderer, t_point p1, t_point p2)
-//{
-//	int		i;
-//	double	x;
-//	double	y;
-//	double	z;
-//	double	d;
-
-//	x = p1.x;
-//	y = p1.y;
-//	z = p1.z;
-//	i = 0;
-//	d = get_distance(p1, p2);
-//	while (i < d)
-//	{
-//		draw_point(renderer, (t_point){x, y, z, p1.color});
-//		x += (p2.x - p1.x) / d;
-//		y += (p2.y - p1.y) / d;
-//		z += (p2.z - p1.z) / d;
-//		i++;
-//	}
-//}
-
 void	draw_vector(t_renderer *renderer, t_point p1, t_point p2)
 {
 	draw_line(renderer, p1,
@@ -51,11 +17,14 @@ void	draw_cube(t_renderer	*renderer, t_point start, double w)
 		(t_point){0, 0, w, start.color});
 	draw_vector(renderer, (t_point){start.x, start.y + w, start.z, start.color},
 		(t_point){0, 0, w, start.color});
-	draw_vector(renderer, (t_point){start.x + w, start.y + w, start.z, start.color},
+	draw_vector(renderer,
+		(t_point){start.x + w, start.y + w, start.z, start.color},
 		(t_point){0, 0, w, start.color});
-	draw_vector(renderer, (t_point){start.x + w, start.y, start.z + w, start.color},
+	draw_vector(renderer,
+		(t_point){start.x + w, start.y, start.z + w, start.color},
 		(t_point){0, w, 0, start.color});
-	draw_vector(renderer, (t_point){start.x, start.y + w, start.z + w, start.color},
+	draw_vector(renderer,
+		(t_point){start.x, start.y + w, start.z + w, start.color},
 		(t_point){w, 0, 0, start.color});
 	draw_vector(renderer, (t_point){start.x + w, start.y, start.z, start.color},
 		(t_point){0, w, 0, start.color});
