@@ -3,7 +3,7 @@ NAME := libfdf_renderer.a
 CC := cc
 AR := ar
 
-CFLAGS := -Wall -Werror -Wextra
+CFLAGS := -Wall -Werror -Wextra -g3
 ARFLAGS := -rc
 
 SOURCES_DIR := ./src
@@ -35,7 +35,7 @@ $(BINARIES_DIR) :
 	mkdir $(BINARIES_DIR)
 
 $(BINARIES_DIR)/%.o : $(SOURCES_DIR)/%.c | $(BINARIES_DIR)
-	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@ -g3
+	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 all : $(NAME)
 
