@@ -11,7 +11,7 @@ void	draw_horizontal_line(t_renderer *renderer, t_pixel start, t_pixel end)
 {
 	const int		step_nb = abs(start.x - end.x);
 	const double	depth_step = (end.depth - start.depth) / step_nb;
-	const double	y_step = (end.y - start.y) / step_nb;
+	const double	y_step = (double)(end.y - start.y) / step_nb;
 	//const double	color_step = ; @TODO
 	int				i;
 
@@ -31,7 +31,7 @@ void	draw_vertical_line(t_renderer *renderer, t_pixel start, t_pixel end)
 {
 	const int		step_nb = abs(start.y - end.y);
 	const double	depth_step = (end.depth - start.depth) / step_nb;
-	const double	x_step = (end.x - start.x) / step_nb;
+	const double	x_step = (double)(end.x - start.x) / step_nb;
 	//const double	color_step = ; @TODO
 	int				i;
 
