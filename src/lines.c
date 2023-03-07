@@ -7,14 +7,23 @@ static int	abs(int x)
 	return ((x) * ((x > 0) * 2 -1));
 }
 
+static void	get_color_step(
+	double *res, t_pixel start, t_pixel end, double step_nb)
+{
+	res[0] = ((end.color >> 16) & 0xFF) -((start.color >> 16) & 0xFF) / step_nb;
+	res[1] = ((end.color >> 8) & 0xFF) -((start.color >> 8) & 0xFF) / step_nb;
+	res[2] = (end.color & 0xFF) -(start.color & 0xFF) / step_nb;
+}
+
 void	draw_horizontal_line(t_renderer *renderer, t_pixel start, t_pixel end)
 {
 	const int		step_nb = abs(start.x - end.x);
 	const double	depth_step = (end.depth - start.depth) / step_nb;
 	const double	y_step = (double)(end.y - start.y) / step_nb;
-	//const double	color_step = ; @TODO
+	double			color_step[3];
 	int				i;
 
+	get_color_step(color_step, start, end, step_nb);
 	i = 0;
 	while (i < step_nb)
 	{
@@ -22,7 +31,9 @@ void	draw_horizontal_line(t_renderer *renderer, t_pixel start, t_pixel end)
 			start.depth + depth_step * i,
 			start.x + ((end.x - start.x > 0) * 2 -1) * i,
 			start.y + y_step * i,
-			start.color});
+			start.color + ((int)(color_step[0] * i) << 16)
+			+ ((int)(color_step[1] * i) << 8) + (int)(color_step[1] * i)
+		});
 		i++;
 	}
 }
@@ -32,9 +43,10 @@ void	draw_vertical_line(t_renderer *renderer, t_pixel start, t_pixel end)
 	const int		step_nb = abs(start.y - end.y);
 	const double	depth_step = (end.depth - start.depth) / step_nb;
 	const double	x_step = (double)(end.x - start.x) / step_nb;
-	//const double	color_step = ; @TODO
+	double			color_step[3];
 	int				i;
 
+	get_color_step(color_step, start, end, step_nb);
 	i = 0;
 	while (i < step_nb)
 	{
