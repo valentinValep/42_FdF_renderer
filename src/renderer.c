@@ -54,7 +54,7 @@ int	init_renderer(t_renderer	*renderer)
 	renderer->origin_x = WINDOW_W / 2;
 	renderer->origin_y = WINDOW_H / 2;
 	init_projections(renderer);
-	renderer->projection_select = 0; // @TODO change this system
+	renderer->projection_select = 0;
 	if (init_images(renderer))
 		return (1);
 	return (0);
@@ -72,4 +72,10 @@ int	destroy_renderer(t_renderer	*renderer)
 	result += mlx_destroy_display(renderer->mlx);
 	free(renderer->mlx);
 	return (0);
+}
+
+void	swap_projection(t_renderer *renderer)
+{
+	renderer->projection_select
+		= (renderer->projection_select + 1) % PROJECTIONS_NUMBER;
 }

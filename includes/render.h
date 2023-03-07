@@ -66,14 +66,17 @@ int		put_pixel(t_double_buffered_img *images, t_pixel pixel);
 t_pixel	project(t_renderer *renderer, t_point point);
 
 // Public
-int		init_renderer(t_renderer	*renderer)
+int		init_renderer(t_renderer *renderer)
 		__attribute__((warn_unused_result));
 int		destroy_renderer(t_renderer	*renderer);
 void	render_tick(t_renderer *renderer);
-void	clear_renderer(t_renderer	*renderer);
-int		draw_point(t_renderer	*renderer, t_point point);
-void	put_origins(t_renderer	*renderer);
-void	draw_cube(t_renderer	*renderer, t_point start, double w);
-void	draw_line(t_renderer	*renderer, t_point p1, t_point p2);
+void	clear_renderer(t_renderer *renderer);
+
+int		draw_point(t_renderer *renderer, t_point point);
+void	put_origins(t_renderer *renderer);
+void	draw_cube(t_renderer *renderer, t_point start, double w);
+void	draw_line(t_renderer *renderer, t_point p1, t_point p2);
+
+void	swap_projection(t_renderer *renderer);
 
 #endif
