@@ -10,9 +10,10 @@ static int	abs(int x)
 static void	get_color_step(
 	double *res, t_pixel start, t_pixel end, double step_nb)
 {
-	res[0] = ((end.color >> 16) & 0xFF) -((start.color >> 16) & 0xFF) / step_nb;
-	res[1] = ((end.color >> 8) & 0xFF) -((start.color >> 8) & 0xFF) / step_nb;
-	res[2] = (end.color & 0xFF) -(start.color & 0xFF) / step_nb;
+	res[0] = (((end.color >> 16) & 0xFF) -((start.color >> 16) & 0xFF))
+		/ step_nb;
+	res[1] = (((end.color >> 8) & 0xFF) -((start.color >> 8) & 0xFF)) / step_nb;
+	res[2] = ((end.color & 0xFF) -(start.color & 0xFF)) / step_nb;
 }
 
 void	draw_horizontal_line(t_renderer *renderer, t_pixel start, t_pixel end)
@@ -31,8 +32,8 @@ void	draw_horizontal_line(t_renderer *renderer, t_pixel start, t_pixel end)
 			start.depth + depth_step * i,
 			start.x + ((end.x - start.x > 0) * 2 -1) * i,
 			start.y + y_step * i,
-			start.color + ((int)(color_step[0] * i) << 16)
-			+ ((int)(color_step[1] * i) << 8) + (int)(color_step[1] * i)
+			start.color + (((int)(color_step[0] * i)) << 16)
+			+ (((int)(color_step[1] * i) << 8)) + (int)(color_step[2] * i)
 		});
 		i++;
 	}
@@ -54,7 +55,9 @@ void	draw_vertical_line(t_renderer *renderer, t_pixel start, t_pixel end)
 			start.depth + depth_step * i,
 			start.x + x_step * i,
 			start.y + ((end.y - start.y > 0) * 2 -1) * i,
-			start.color});
+			start.color + (((int)(color_step[0] * i)) << 16)
+			+ (((int)(color_step[1] * i)) << 8) + (int)(color_step[2] * i)
+		});
 		i++;
 	}
 }
