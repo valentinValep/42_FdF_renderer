@@ -73,3 +73,9 @@ int	destroy_renderer(t_renderer	*renderer)
 	free(renderer->mlx);
 	return (0);
 }
+
+void	swap_projection(t_renderer *renderer)
+{
+	renderer->projection_select
+		= (renderer->projection_select + 1) % PROJECTIONS_NUMBER;
+}
