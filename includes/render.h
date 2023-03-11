@@ -57,7 +57,6 @@ typedef struct s_renderer
 	int						projection_select;
 	int						origin_x;
 	int						origin_y;
-	double					height_factor;
 }	t_renderer;
 
 // Private
