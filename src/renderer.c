@@ -51,7 +51,7 @@ int	init_renderer(t_renderer	*renderer)
 	renderer->window = mlx_new_window(renderer->mlx, WINDOW_W, WINDOW_H, "Test isometrique"); // @TODO custom window name
 	renderer->origin_x = WINDOW_W / 2;
 	renderer->origin_y = WINDOW_H / 2;
-	renderer->height_factor = 1.;
+	renderer->height_factor = 0.1;
 	init_projections(renderer);
 	renderer->projection_select = 0;
 	if (init_images(renderer))
