@@ -11,14 +11,14 @@ void	init_projections(t_renderer	*renderer)
 	renderer->projections[0].j_hat[0] = cos(5. * M_PI / 6.);
 	renderer->projections[0].j_hat[1] = sin(5. * M_PI / 6.);
 	renderer->projections[0].k_hat[0] = 0.;
-	renderer->projections[0].k_hat[1] = -1.;
+	renderer->projections[0].k_hat[1] = -1. * renderer->height_factor;
 	renderer->projections[1].name = "Military"; // @TODO verif this string is not delete
 	renderer->projections[1].i_hat[0] = 1;
 	renderer->projections[1].i_hat[1] = 1;
 	renderer->projections[1].j_hat[0] = -1;
 	renderer->projections[1].j_hat[1] = 1;
 	renderer->projections[1].k_hat[0] = 0.;
-	renderer->projections[1].k_hat[1] = -1.;
+	renderer->projections[1].k_hat[1] = -1. * renderer->height_factor;
 }
 
 int	init_images(t_renderer	*renderer)
@@ -51,10 +51,9 @@ int	init_renderer(t_renderer	*renderer)
 	renderer->window = mlx_new_window(renderer->mlx, WINDOW_W, WINDOW_H, "Test isometrique"); // @TODO custom window name
 	renderer->origin_x = WINDOW_W / 2;
 	renderer->origin_y = WINDOW_H / 2;
-	renderer->origin_x = WINDOW_W / 2;
-	renderer->origin_y = WINDOW_H / 2;
+	renderer->height_factor = 1.;
 	init_projections(renderer);
-	renderer->projection_select = 0; // @TODO change this system
+	renderer->projection_select = 0;
 	if (init_images(renderer))
 		return (1);
 	return (0);
