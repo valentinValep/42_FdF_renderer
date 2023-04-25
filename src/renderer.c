@@ -5,14 +5,14 @@
 
 void	init_projections(t_renderer	*renderer)
 {
-	renderer->projections[0].name = "Isometric"; // @TODO verif this string is not delete
+	renderer->projections[0].name = "Isometric";
 	renderer->projections[0].i_hat[0] = cos(M_PI / 6.);
 	renderer->projections[0].i_hat[1] = sin(M_PI / 6);
 	renderer->projections[0].j_hat[0] = cos(5. * M_PI / 6.);
 	renderer->projections[0].j_hat[1] = sin(5. * M_PI / 6.);
 	renderer->projections[0].k_hat[0] = 0.;
 	renderer->projections[0].k_hat[1] = -1.;
-	renderer->projections[1].name = "Military"; // @TODO verif this string is not delete
+	renderer->projections[1].name = "Military";
 	renderer->projections[1].i_hat[0] = 1;
 	renderer->projections[1].i_hat[1] = 1;
 	renderer->projections[1].j_hat[0] = -1;
@@ -28,15 +28,20 @@ int	init_images(t_renderer	*renderer)
 	renderer->images.img_offset = 0;
 	renderer->images.w = WINDOW_W;
 	renderer->images.h = WINDOW_H;
-	renderer->images.img[0].addr = mlx_new_image(renderer->mlx, renderer->images.w, renderer->images.h);
+	renderer->images.img[0].addr = mlx_new_image(
+			renderer->mlx, renderer->images.w, renderer->images.h);
 	renderer->images.img[0].pixels = mlx_get_data_addr(
-			renderer->images.img[0].addr, &renderer->images.img[0].bits_per_pixel,
+			renderer->images.img[0].addr,
+			&renderer->images.img[0].bits_per_pixel,
 			&renderer->images.img[0].line_len, &renderer->images.img[0].endian);
-	renderer->images.img[1].addr = mlx_new_image(renderer->mlx, renderer->images.w, renderer->images.h);
+	renderer->images.img[1].addr = mlx_new_image(
+			renderer->mlx, renderer->images.w, renderer->images.h);
 	renderer->images.img[1].pixels = mlx_get_data_addr(
-			renderer->images.img[1].addr, &renderer->images.img[1].bits_per_pixel,
+			renderer->images.img[1].addr,
+			&renderer->images.img[1].bits_per_pixel,
 			&renderer->images.img[1].line_len, &renderer->images.img[1].endian);
-	renderer->images.drawed_pixels = malloc((renderer->images.w * renderer->images.h) * sizeof(t_pixel));
+	renderer->images.drawed_pixels = malloc(
+			(renderer->images.w * renderer->images.h) * sizeof(t_pixel));
 	if (!renderer->images.drawed_pixels)
 		return (1);
 	i = 0;
@@ -48,7 +53,8 @@ int	init_images(t_renderer	*renderer)
 int	init_renderer(t_renderer	*renderer)
 {
 	renderer->mlx = mlx_init();
-	renderer->window = mlx_new_window(renderer->mlx, WINDOW_W, WINDOW_H, "Test isometrique"); // @TODO custom window name
+	renderer->window = mlx_new_window(
+			renderer->mlx, WINDOW_W, WINDOW_H, WINDOW_NAME);
 	renderer->origin_x = WINDOW_W / 2;
 	renderer->origin_y = WINDOW_H / 2;
 	init_projections(renderer);

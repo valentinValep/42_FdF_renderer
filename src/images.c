@@ -11,7 +11,8 @@ int	put_pixel(t_double_buffered_img *images, t_pixel pixel)
 	i = 0;
 	if (images->drawed_pixels[pixel.x + pixel.y * images->w].x != -1)
 	{
-		if (pixel.depth <= images->drawed_pixels[pixel.x + pixel.y * images->w].depth)
+		if (pixel.depth
+			<= images->drawed_pixels[pixel.x + pixel.y * images->w].depth)
 			return (0);
 	}
 	images->drawed_pixels[pixel.x + pixel.y * images->w].x = pixel.x;
@@ -43,8 +44,10 @@ void	fill_image(t_double_buffered_img *images)
 	while (i < images->h * images->w)
 	{
 		if (images->drawed_pixels[i].x != -1)
-			((int *)images->img[images->img_offset].pixels)[images->drawed_pixels[i].x
-				+ images->drawed_pixels[i].y * images->w] = images->drawed_pixels[i].color;
+			((int *)images->img[images->img_offset].pixels)
+			[images->drawed_pixels[i].x
+				+ images->drawed_pixels[i].y * images->w]
+				= images->drawed_pixels[i].color;
 		i++;
 	}
 }

@@ -72,8 +72,6 @@ void	draw_line(t_renderer *renderer, t_point p1, t_point p2)
 		|| (pix_1.y < 0 && pix_2.y < 0)
 		|| (pix_1.y >= renderer->images.h && pix_2.y >= renderer->images.h))
 		return ;
-	// @TODO add a check to know how to start if points are out of the screen
-	// tips : use ax + b == 0 to get the intersection between line and origin
 	if (abs(pix_2.y - pix_1.y) > abs(pix_2.x - pix_1.x))
 		draw_vertical_line(renderer, pix_1, pix_2);
 	else

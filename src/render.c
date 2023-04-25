@@ -31,7 +31,8 @@ int	draw_point(t_renderer *renderer, t_point point)
 void	render_tick(t_renderer *renderer)
 {
 	fill_image(&renderer->images);
-	mlx_put_image_to_window(renderer->mlx, renderer->window, renderer->images.img[renderer->images.img_offset].addr, 0, 0);
+	mlx_put_image_to_window(renderer->mlx, renderer->window,
+		renderer->images.img[renderer->images.img_offset].addr, 0, 0);
 	renderer->images.img_offset = (renderer->images.img_offset + 1) % 2;
 	clear_image(&renderer->images, renderer->images.img_offset);
 }

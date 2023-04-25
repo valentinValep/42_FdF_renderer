@@ -1,6 +1,7 @@
 #ifndef RENDER_H
 # define RENDER_H
 
+# define WINDOW_NAME "FdF"
 # define WINDOW_W 1920
 # define WINDOW_H 1080
 # define PROJECTIONS_NUMBER 2
@@ -51,7 +52,7 @@ typedef struct s_projection_matrix
 typedef struct s_renderer
 {
 	t_double_buffered_img	images;
-	void					*mlx; // @TODO remove ? (not really a renderer part)
+	void					*mlx;
 	void					*window;
 	t_projection_matrix		projections[PROJECTIONS_NUMBER];
 	int						projection_select;
