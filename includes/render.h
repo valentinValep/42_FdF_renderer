@@ -6,7 +6,7 @@
 /*   By: vlepille <vlepille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 16:13:54 by vlepille          #+#    #+#             */
-/*   Updated: 2023/04/25 16:13:56 by vlepille         ###   ########.fr       */
+/*   Updated: 2023/04/26 14:54:21 by vlepille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ typedef struct s_renderer
 	int						projection_select;
 	int						origin_x;
 	int						origin_y;
+	int						init_step;
 }	t_renderer;
 
 // Private
