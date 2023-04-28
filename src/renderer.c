@@ -6,7 +6,7 @@
 /*   By: vlepille <vlepille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 16:14:00 by vlepille          #+#    #+#             */
-/*   Updated: 2023/04/26 15:07:18 by vlepille         ###   ########.fr       */
+/*   Updated: 2023/04/28 16:11:04 by vlepille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,60 +33,52 @@ void	init_projections(t_renderer	*renderer)
 	renderer->projections[1].k_hat[1] = -1.;
 }
 
-int	init_images(t_renderer	*renderer)
+int	init_images(t_renderer *renderer, t_double_buffered_img *images)
 {
 	int	i;
 
-	renderer->images.img_offset = 0;
-	renderer->images.w = WINDOW_W;
-	renderer->images.h = WINDOW_H;
-	renderer->images.img[0].addr = mlx_new_image(
-			renderer->mlx, renderer->images.w, renderer->images.h);
-	if (!renderer->images.img[0].addr)
+	images->img_offset = 0;
+	images->w = WINDOW_W;
+	images->h = WINDOW_H;
+	images->img[0].addr = mlx_new_image(renderer->mlx, images->w, images->h);
+	if ((renderer->init_step++, !images->img[0].addr))
 		return (1);
-	renderer->init_step++;
-	renderer->images.img[0].pixels = mlx_get_data_addr(
-			renderer->images.img[0].addr,
-			&renderer->images.img[0].bits_per_pixel,
-			&renderer->images.img[0].line_len, &renderer->images.img[0].endian);
-	renderer->images.img[1].addr = mlx_new_image(
-			renderer->mlx, renderer->images.w, renderer->images.h);
-	if (!renderer->images.img[1].addr)
+	images->img[0].pixels = mlx_get_data_addr(images->img[0].addr,
+			&images->img[0].bits_per_pixel,
+			&images->img[0].line_len, &images->img[0].endian);
+	images->img[1].addr = mlx_new_image(
+			renderer->mlx, images->w, images->h);
+	if ((renderer->init_step++, !images->img[1].addr))
 		return (1);
-	renderer->init_step++;
-	renderer->images.img[1].pixels = mlx_get_data_addr(
-			renderer->images.img[1].addr,
-			&renderer->images.img[1].bits_per_pixel,
-			&renderer->images.img[1].line_len, &renderer->images.img[1].endian);
-	renderer->images.drawed_pixels = malloc(
-			(renderer->images.w * renderer->images.h) * sizeof(t_pixel));
-	if (!renderer->images.drawed_pixels)
+	images->img[1].pixels = mlx_get_data_addr(images->img[1].addr,
+			&images->img[1].bits_per_pixel,
+			&images->img[1].line_len, &images->img[1].endian);
+	images->drawed_pixels = malloc((images->w * images->h) * sizeof(t_pixel));
+	if ((renderer->init_step++, !images->drawed_pixels))
 		return (1);
-	renderer->init_step++;
 	i = 0;
-	while (i < renderer->images.w * renderer->images.h)
-		renderer->images.drawed_pixels[i++].x = -1;
+	while (i < images->w * images->h)
+		images->drawed_pixels[i++].x = -1;
 	return (0);
 }
 
 int	init_renderer(t_renderer	*renderer)
 {
-	renderer->init_step = 0;
+	renderer->init_step = -1;
 	renderer->mlx = mlx_init();
-	if (!renderer->mlx)
+	if ((renderer->init_step++, !renderer->mlx))
 		return ((destroy_renderer(renderer), 1));
-	renderer->init_step++;
 	renderer->window = mlx_new_window(
 			renderer->mlx, WINDOW_W, WINDOW_H, WINDOW_NAME);
-	if (!renderer->window)
+	if ((renderer->init_step++, !renderer->window))
 		return ((destroy_renderer(renderer), 2));
-	renderer->init_step++;
 	renderer->origin_x = WINDOW_W / 2;
 	renderer->origin_y = WINDOW_H / 2;
 	init_projections(renderer);
 	renderer->projection_select = 0;
-	if (init_images(renderer))
+	if (init_images(renderer, &renderer->images))
 		return ((destroy_renderer(renderer), 3));
+	renderer->init_step++;
 	return (0);
 }
 
@@ -100,9 +92,11 @@ int	destroy_renderer(t_renderer	*renderer)
 	if (renderer->init_step > 1)
 		result += mlx_destroy_window(renderer->mlx, renderer->window);
 	if (renderer->init_step > 2)
-		result += mlx_destroy_image(renderer->mlx, renderer->images.img[0].addr);
+		result
+			+= mlx_destroy_image(renderer->mlx, renderer->images.img[0].addr);
 	if (renderer->init_step > 3)
-		result += mlx_destroy_image(renderer->mlx, renderer->images.img[1].addr);
+		result
+			+= mlx_destroy_image(renderer->mlx, renderer->images.img[1].addr);
 	if (renderer->init_step > 0)
 	{
 		result += mlx_destroy_display(renderer->mlx);
