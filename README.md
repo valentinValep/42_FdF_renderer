@@ -52,4 +52,4 @@ int	main(void)
 -	Command helper on another img
 
 # Credits
-This project was developed by [valentinValep](https://github.com/valentinValep). The project was completed using the C programming language and the minilibx library.
+This project was developed by [valentinValep](https://github.com/valentinValep). The project was completed using the C programming language and the [minilibx library](https://github.com/42Paris/minilibx-linux).
